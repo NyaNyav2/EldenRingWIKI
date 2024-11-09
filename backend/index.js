@@ -1,7 +1,7 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
-
+import path from 'path';
 import connectDB from './mongodb/connect.js';
 import weapons from './routes/weapons.js'
 import armors from './routes/armors.js'
@@ -30,14 +30,16 @@ app.use("/api/bookmarks", bookmark);
 app.use('/api/comment',comment)
 app.use('/api/userinfo',userInfo)
 
-app.get('/', async (req, res) => {
-  res.status(200).json({
-    message: 'Hello from Elden ring',
-  });
-});
 
+const __dirname = path.resolve();
 
 const startServer = async () => {
+  if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "/frontend/dist")));
+    app.get("*", (req, res) => {
+      res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+    });
+  }
   try {
     connectDB(process.env.MONGODB_URL);
     app.listen(8080, () => console.log('Server started on port 8080'));
