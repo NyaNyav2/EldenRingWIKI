@@ -30,8 +30,8 @@ services:
 
     # specify environment variables for the api service
     environment:
-      MONGODB_URL: mongodb+srv://vansykien03:6gL9X3kgOKAqU0om@cluster0.grhch.mongodb.net/EldenRing?retryWrites=true&w=majority&appName=Cluster0   # Passes the MONGODB_URL from the .env file
-      SECRET: a3sRNUt8TzPmgbXf7nDKMw
+      MONGODB_URL: "${MONGODB_URL}"   # Passes the MONGODB_URL from the .env file
+      SECRET: "${SECRET}"
     develop:
       watch:
         - path: ./backend/package.json
